@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   complete_tasks.addEventListener("click", filter_tasks);
   incomplete_tasks.addEventListener("click", filter_tasks)
 
-function filter_tasks(el) {
+  function filter_tasks(el) {
   const container = document.querySelector(".div"); // Substitua pelo container real das tarefas
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -61,10 +61,17 @@ function filter_tasks(el) {
   content.style.height = "700px";
   navigation.style.height = "700px";
 
-  /* Exibe o popup */
+  
   add_btn.addEventListener("click", () => {
-    show_popup(box_popup);
-  });
+      if (task_name.value != "") {
+        show_popup(box_popup);
+      } else {
+        alert("Preencha o nome da tarefa!");
+      }
+    });
+ 
+  /* Exibe o popup */
+  
 
   /* Exibe os inputs do popup após evento de click */
   add_date_btn.addEventListener("click", () => toogle_height_date(box_date));
@@ -82,8 +89,6 @@ function filter_tasks(el) {
       task_intervals: task_intervals.value,
       task_times: task_times.value,
     };
-
-    alert(task_name.value);
 
     save_task(task_data); // Salva tarefa no localStorage
     render_tasks(document.querySelector(".div")); // Atualiza a lista de tarefas exibida

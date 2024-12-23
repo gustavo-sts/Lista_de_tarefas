@@ -10,12 +10,12 @@ export function show_popup(box_popup) {
 
 export function toogle_height_date(element) {
   element.style.height == "29.2px"
-    ? (element.style.height = "100px")
+    ? (element.style.height = "160px")
     : (element.style.height = "29.2px");
 }
 
 export function toogle_height_intervals(element) {
   element.style.height == "29.2px"
-    ? (element.style.height = "160px")
+    ? (element.style.height = "180px")
     : (element.style.height = "29.2px");
 }
