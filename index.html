@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador de tarefas de 2025</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <header>
+
+    <div class="header">
+      <div class="logotype">
+        <img src="" alt="">
+        <h1>Gerenciador de tarefas de 2025</h1>
+      </div>
+
+      <button type="button" class="account">
+        <i class="fa-solid fa-user"></i>
+      </button>
+    </div>
+
+  </header>
+
+  <main>
+    <section class="main-section">
+
+      <div class="navigation">
+        <div class="navigation-title-box">
+          <h2>Navegação</h2>
+        </div>
+
+        <div class="navigation-elements-box">
+          <ul>
+            <li id="complete">
+              <i class="fa-solid fa-square-check"></i>
+              
+              <span>Completos</span>
+            </li>
+            <li id="incomplete">
+              <i class="fa-solid fa-square-xmark"></i>
+
+              <span>Incompletos</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!--Divisão entre a div de navegação e a div de conteúdo-->
+
+      <div class="content">
+        <form class="task-small-data">
+          <h2>Criar tarefa</h2>
+
+          <fieldset class="small-data">
+            <label for="task-name">Digite o nome da tarefa ou do evento:</label>
+            <div>
+              <input type="text" name="" id="task-name">
+              <button type="button" id="plus">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </fieldset>
+        </form>
+
+        <div class="events-box">
+          <h2>Listagem de eventos:</h2>
+        </div>
+
+        <div class="div">
+          <!--Tarefas-->
+        </div>
+
+        <div class="popup" style="display: none;">
+          <div class="popup-elements">
+
+            <h2>Quase lá; adicione mais dados sobre sua tarefa se necesssário:</h2>
+
+            <div>
+              <div id="date-box" style="height: 29.2px;">
+                <button type="button" id="add-date" >Adicionar data do evento</button>
+                <label for="date">Adicione a data do evento</label>
+                <div>
+                  <input type="text" name="" id="date" placeholder="DD/MM/AAAA">
+                  <input type="time" name="" id="time">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div id="intervals-box" style="height: 29.2px;">
+                <button type="button" id="add-intervals" >Adicionar repetição</button>
+
+                <label for="intervals">Intervalo de repetição:</label>
+                <input type="number" name="" id="intervals" placeholder="Número de vezes em que a tarefa será repetida">
+                <label for="until">Número de vezes:</label>
+                <input type="number" id="until" placeholder="Data de término">
+
+              </div>
+            </div>
+
+            <div id="save-or-close">
+              <button type="button" id="save-btn">Salvar!</button>
+              <button type="button" id="close-btn">Fechar...</button>
+            </div>
+          </div>
+
+        </div>
+
+    </section>
+  </main>
+
+  <footer>
+
+
+
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>
