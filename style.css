@@ -487,4 +487,13 @@ main {
     width: 160px;
     font-size: 12px;
   }
+
+  .task-content{
+    display: flex;
+    align-items: center;
+  }
+
+  .task-content h3, .task-content p, .task-item button{
+    font-size: 12px;
+  }
 }
