@@ -52,7 +52,7 @@ export function save_task(
   } else {
     const task_id = tasks.length ? tasks[tasks.length - 1].task_id + 1 : 1;
     let [ano, mes, dia] = task_date.split("-");
-    task_date = dia + "/" + mes + "/" + ano;
+    task_date ? task_date = dia + "/" + mes + "/" + ano : "";
     const new_task = {
         task_name,
         task_date,

@@ -22,7 +22,7 @@ export function render_tasks(container, tasks_to_render = null) {
         <input type="checkbox" ${
           task.checkbox?.checked ? "checked" : ""
         } data-id="${task.task_id}">
-        <h3>${task.task_name} - </h3>
+        <h3>${task.task_date ? task.task_name + " - " : task.task_name} </h3>
         <p>${task.task_date || ""}</p>
         <p>${task.task_time ? "<strong>às</strong>" + task.task_time : ""}</p>
       </div>
