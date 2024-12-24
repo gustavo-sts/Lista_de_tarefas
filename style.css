@@ -469,7 +469,7 @@ main {
   }
 
   #date-box, #intervals-box{
-    width: 160px;
+    width: 200px;
     flex-direction: column;
     gap: 10px;
   }
@@ -479,12 +479,12 @@ main {
   }
 
   #date-box input, #intervals-box input{
-    width: 100px;
+    width: 160px;
     height: 20px;
   }
 
   #add-date, #add-intervals {
-    width: 160px;
+    width: 200px;
     font-size: 12px;
   }
 

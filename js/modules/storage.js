@@ -11,12 +11,12 @@ export function save_task(
     return;
   }
 
-  alert(task_date.split("/"))
-
   // Cria uma nova tarefa com um ID único
   if (task_intervals) {
   let i = 1;
-  let [dia, mes, ano] = task_date.split("/");
+    // let [dia, mes, ano] = task_date.split("/")
+    let [ano, mes, dia] = task_date.split("-");
+    task_date = dia + "/" + mes + "/" + ano;
      while(i <= task_times){
        const task_id = tasks.length ? tasks[tasks.length - 1].task_id + 1 : 1;
        if (i > 1) {
@@ -51,7 +51,8 @@ export function save_task(
     }
   } else {
     const task_id = tasks.length ? tasks[tasks.length - 1].task_id + 1 : 1;
-      
+    let [ano, mes, dia] = task_date.split("-");
+    task_date = dia + "/" + mes + "/" + ano;
     const new_task = {
         task_name,
         task_date,
