@@ -87,7 +87,7 @@ main {
 }
 
 .navigation-title-box{
-  background-color: #ef3838;
+  background-color: #ff0000;
   border-radius: 20px;
   width: 100%;
   height: px;
@@ -322,19 +322,8 @@ main {
   cursor: pointer
 }
 
-.edit-task-btn{
-  background-color: #0bab0b;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  color: #000000;
-  font-size: 15px;
-  font-weight: 600;
-}
-
 .delete-btn {
-  background-color: #1f0c4d;
+  background-color: #ff0000;
   padding: 5px 10px;
   border: none;
   border-radius: 10px;
@@ -350,15 +339,41 @@ main {
   display: flex;
 }
 
+.div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .div h3, .div p, .div li {
   font-family: "Inter";
   font-size: 20px;
   color: #fff;
 }
 
+.task-item{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .task-item div {
   display: flex;
   gap: 5px;
+}
+
+.task-item button{
+  height: fit-content;
+}
+
+.popup-fullscreen{
+  display: flex; 
+  position: absolute; 
+  background-color: #000; 
+  padding: 40px; 
+  border-radius: 10px; 
+  top: 20%;
+  left: calc(50vw - 400px);
 }
 
 @media (max-width: 768px) {
@@ -402,7 +417,7 @@ main {
 }
 
   .navigation-elements-box li{
-    margin-left: 20px;
+    margin-left: 16px;
   }
 
   .navigation-elements-box ul{
@@ -488,12 +503,30 @@ main {
     font-size: 12px;
   }
 
-  .task-content{
+  .task-item {
+    display: flex;
+    gap: 5px;
+  }
+
+  .task-content {
     display: flex;
     align-items: center;
   }
 
-  .task-content h3, .task-content p, .task-item button{
+  .task-content h3, .task-content p{
     font-size: 12px;
+    cursor: pointer;
+  }
+
+  .task-item button {
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #ff0000;
+  }
+
+  .task-title{
+    max-width: 80px;
+    overflow-x: hidden;
+    text-wrap: nowrap;
   }
 }
