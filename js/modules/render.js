@@ -19,14 +19,23 @@ export function render_tasks(container, tasks_to_render = null) {
 
     task_item.innerHTML = `
       <div class="task-content">
-        <input type="checkbox" ${
+        <div>
+          <input type="checkbox" ${
           task.checkbox?.checked ? "checked" : ""
-        } data-id="${task.task_id}">
-        <h3 class="task-title">${task.task_date ? task.task_name + " - " : task.task_name} </h3>
-        <p>${task.task_date || ""}</p>
-        <p>${task.task_time ? "<strong>às </strong>" + task.task_time : ""}</p>
+          } data-id="${task.task_id}">
+          <h3 class="task-title">${
+          task.task_date ? task.task_name + " - " : task.task_name
+          } </h3>
+        </div>
+        
+        <p class="data-view">${task.task_date || ""}</p>
+        <p class="time-view">${
+          task.task_time ? "<strong>às </strong>" + task.task_time : ""
+        }</p>
       </div>
-      <button class="delete-btn fa-solid fa-trash" data-id="${task.task_id}"></button>
+      <button class="delete-btn fa-solid fa-trash" data-id="${
+        task.task_id
+      }"></button>
     `;
 
     // Adiciona evento para excluir a tarefa

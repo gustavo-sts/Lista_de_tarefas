@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Adiciona evento ao título da tarefa
     taskTitle.addEventListener("click", (event) => {
-      const taskContainer = event.target.parentNode.parentNode;
+      const taskContainer = event.target.parentNode.parentNode.parentNode;
 
       // Salva o conteúdo original da tarefa
       const originalTaskContent = task.innerHTML;
@@ -173,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const activeTitle = document.querySelector(".task-item h3.task-title");
       if (activeTitle) {
         activeTitle.classList.remove("task-title");
+        taskTitle.classList.add("task-title-2")
       }
 
       // Adiciona a classe ao título clicado
