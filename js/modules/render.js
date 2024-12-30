@@ -17,11 +17,6 @@ export function render_tasks(container, tasks_to_render = null) {
     const task_item = document.createElement("li");
     task_item.classList.add("task-item");
 
-    const isMobile = window.innerWidth <= 750;
-    const truncated_task_name = isMobile
-      ? task.task_name.split(" ").slice(0, 2).join(" ") + "..."
-      : task.task_name;
-
     task_item.innerHTML = `
       <div class="task-content">
         <div>
@@ -30,11 +25,7 @@ export function render_tasks(container, tasks_to_render = null) {
           } data-id="${task.task_id}">
           <h3 class="task-title">${
             task.task_date
-              ? isMobile
-                ? truncated_task_name
-                : task.task_name + " - "
-              : isMobile
-              ? truncated_task_name
+              ? task.task_name + " - "
               : task.task_name
           }</h3>
         </div>
