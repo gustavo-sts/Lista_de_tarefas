@@ -125,6 +125,8 @@ export function render_tasks(container, tasks_to_render = null) {
               ? isMobile
                 ? truncated_task_name
                 : task.task_name + " - "
+              : isMobile
+              ? truncated_task_name
               : task.task_name
           }</h3>
         </div>
