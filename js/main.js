@@ -6,10 +6,18 @@ import {
 import { save_task } from "./modules/storage.js";
 import { render_tasks } from "./modules/render.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+const setStyles = (element, styles) => {
+  Object.entries(styles).forEach(([key, value]) => {
+    element.style[key] = value;
+  });
+};
+
+const addEvent = (element, event, handler) =>
+  element.addEventListener(event, handler);
+
+const initializeApp = () => {
   const navigation = document.querySelector(".navigation");
   const content = document.querySelector(".content");
-
   const add_btn = document.querySelector("#plus");
   const box_popup = document.querySelector(".popup");
 
@@ -30,55 +38,75 @@ document.addEventListener("DOMContentLoaded", () => {
   const complete_tasks = document.querySelector("#complete");
   const incomplete_tasks = document.querySelector("#incomplete");
 
-  complete_tasks.addEventListener("click", filter_tasks);
-  incomplete_tasks.addEventListener("click", filter_tasks);
+  const filterTasks = (tasks, condition) => tasks.filter(condition);
 
-  function filter_tasks(el) {
-    const container = document.querySelector(".div"); // Substitua pelo container real das tarefas
+  const handleFilterTasks = (el) => {
+    const container = document.querySelector(".div");
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    if (
+    const isCompleteFilter =
       el.target.innerText === "Completos" ||
-      el.target.classList.contains("fa-square-check")
-    ) {
-      // Filtra tarefas que estão completas
-      const completed_tasks = tasks.filter((task) => task.checkbox?.checked);
-      render_tasks(container, completed_tasks); // Renderiza as tarefas completas
-    } else if (
-      (el.target.innerText === "Incompletos",
-      el.target.classList.contains("fa-square-xmark"))
-    ) {
-      // Filtra tarefas que estão incompletas
-      const incomplete_tasks = tasks.filter((task) => !task.checkbox?.checked);
-      render_tasks(container, incomplete_tasks); // Renderiza as tarefas incompletas
-    } else {
-      // Renderiza todas as tarefas (sem filtro)
-      render_tasks(container);
-    }
-  }
+      el.target.classList.contains("fa-square-check");
+    const isIncompleteFilter =
+      el.target.innerText === "Incompletos" ||
+      el.target.classList.contains("fa-square-xmark");
 
-  /* Configurações iniciais */
-  content.style.height = "700px";
-  navigation.style.height = "700px";
+    const filteredTasks = isCompleteFilter
+      ? filterTasks(tasks, (task) => task.checkbox?.checked)
+      : isIncompleteFilter
+      ? filterTasks(tasks, (task) => !task.checkbox?.checked)
+      : tasks;
 
-  add_btn.addEventListener("click", () => {
-    if (task_name.value != "") {
-      show_popup(box_popup);
-    } else {
-      alert("Preencha o nome da tarefa!");
-    }
+    render_tasks(container, filteredTasks);
+  };
+
+  const enableTaskPopup = () => {
+    const tasks = document.querySelectorAll(".task-item");
+    tasks.forEach((task) => {
+      const taskTitle = task.querySelector("h3");
+
+      addEvent(taskTitle, "click", (event) => {
+        const taskContainer = event.target.parentNode.parentNode.parentNode;
+
+        if (!taskContainer.classList.contains("popup-fullscreen")) {
+          taskContainer.classList.add("popup-fullscreen");
+
+          const closeButton = document.createElement("button");
+          closeButton.classList.add("btn-close-task");
+          closeButton.innerText = "Fechar";
+          taskContainer.append(closeButton);
+
+          addEvent(closeButton, "click", () => {
+            taskContainer.classList.remove("popup-fullscreen");
+            closeButton.remove();
+          });
+        }
+
+        const activeTitle = document.querySelector(".task-item h3.task-title");
+        if (activeTitle) activeTitle.classList.remove("task-title");
+
+        taskTitle.classList.add("task-title");
+      });
+    });
+  };
+
+  // Configuração inicial de estilos
+  setStyles(content, { height: "700px" });
+  setStyles(navigation, { height: "700px" });
+
+  // Configuração de eventos principais
+  addEvent(add_btn, "click", () => {
+    task_name.value
+      ? show_popup(box_popup)
+      : alert("Preencha o nome da tarefa!");
   });
 
-  /* Exibe o popup */
-
-  /* Exibe os inputs do popup após evento de click */
-  add_date_btn.addEventListener("click", () => toogle_height_date(box_date));
-  add_intervals_btn.addEventListener("click", () =>
+  addEvent(add_date_btn, "click", () => toogle_height_date(box_date));
+  addEvent(add_intervals_btn, "click", () =>
     toogle_height_intervals(box_intervals)
   );
 
-  /* Salva tarefa no localStorage e renderiza */
-  save_btn.addEventListener("click", () => {
+  addEvent(save_btn, "click", () => {
     const task_data = {
       task_name: task_name.value,
       task_date: task_date.value,
@@ -87,102 +115,70 @@ document.addEventListener("DOMContentLoaded", () => {
       task_times: task_times.value,
     };
 
-    save_task(task_data); // Salva tarefa no localStorage
-    render_tasks(document.querySelector(".div")); // Atualiza a lista de tarefas exibida
-    show_popup(box_popup); // Fecha o popup
+    save_task(task_data);
+    render_tasks(document.querySelector(".div"));
+    enableTaskPopup(); // Reaplica os eventos às tarefas
+    show_popup(box_popup);
   });
 
-  /* Fecha o popup */
-  close_btn.addEventListener("click", () => show_popup(box_popup));
+  addEvent(close_btn, "click", () => show_popup(box_popup));
 
-  /* Configurações responsivas para dispositivos móveis */
+  addEvent(complete_tasks, "click", handleFilterTasks);
+  addEvent(incomplete_tasks, "click", handleFilterTasks);
+
+  // Configurações responsivas
   if (window.innerWidth <= 750) {
+    
     const nav = document.querySelector(".navigation");
 
     nav.querySelector(".navigation-title-box").innerHTML =
       '<i class="fa-solid fa-bars"></i>';
-
-    nav
-      .querySelectorAll(".navigation-elements-box span")
-      .forEach((el) => (el.style.display = "none"));
-
-    document
-      .querySelector(".navigation-title-box")
-      .addEventListener("click", () => {
-        if (nav.style.width !== "90%") {
-          nav.style = "width: 90%; height: 700px;";
-
-          content.style =
-            "position: absolute; z-index: -1; height: 700px; width: 80%; left: 70px";
-
+    
           nav
             .querySelectorAll(".navigation-elements-box span")
-            .forEach((el) => (el.style.display = "flex"));
+            .forEach((el) => {
+              el.style.display = "none";
+            });
+    
+    const toggleNavigation = () => {
+      const isExpanded = nav.style.width == "90%";
 
-          nav.querySelector(".navigation-title-box").innerHTML =
-            '<h2>Navegação</h2> <i class="fa-regular fa-circle-xmark"></i>';
-        } else {
-          nav.style = "width: 60px; height: 700px; position: relative";
-
-          nav
-            .querySelectorAll(".navigation-elements-box span")
-            .forEach((el) => (el.style.display = "none"));
-
-          nav.querySelector(".navigation-title-box").innerHTML =
-            '<i class="fa-solid fa-bars"></i>';
-        }
+      setStyles(nav, {
+        width: isExpanded ? "60px" : "90%",
+        height: "700px",
+        position: isExpanded ? "relative" : "",
       });
+
+      const contentStyles = isExpanded
+        ? {}
+        : {
+            position: "absolute",
+            zIndex: "-1",
+            height: "700px",
+            width: "80%",
+            left: "70px",
+          };
+      setStyles(content, contentStyles);
+
+      nav.querySelectorAll(".navigation-elements-box span").forEach((el) => {
+        el.style.display = isExpanded ? "none" : "flex";
+      });
+
+      nav.querySelector(".navigation-title-box").innerHTML = isExpanded
+        ? '<i class="fa-solid fa-bars"></i>'
+        : '<h2>Navegação</h2> <i class="fa-regular fa-circle-xmark"></i>';
+    };
+
+    addEvent(
+      nav.querySelector(".navigation-title-box "),
+      "click",
+      toggleNavigation
+    );
   }
 
-  /* Renderiza tarefas ao carregar a página */
+  // Renderizar tarefas ao carregar
   render_tasks(document.querySelector(".div"));
+  enableTaskPopup(); // Reaplica eventos às tarefas
+};
 
-  // Seleciona todos os itens de tarefa
-  const tasks = document.querySelectorAll(".task-item");
-
-  tasks.forEach((task) => {
-    // Seleciona o título de cada tarefa
-    const taskTitle = task.querySelector("h3");
-
-    // Adiciona evento ao título da tarefa
-    taskTitle.addEventListener("click", (event) => {
-      const taskContainer = event.target.parentNode.parentNode.parentNode;
-
-      // Salva o conteúdo original da tarefa
-      const originalTaskContent = task.innerHTML;
-
-      // Verifica se já está em modo "popup"
-      if (!taskContainer.classList.contains("popup-fullscreen")) {
-        // Adiciona a classe de popup fullscreen
-        taskContainer.classList.add("popup-fullscreen");
-
-        // Cria o botão "Fechar"
-        const closeButton = document.createElement("button");
-        closeButton.classList.add("btn-close-task");
-        closeButton.innerText = "Fechar";
-        taskContainer.append(closeButton);
-
-        // Adiciona evento ao botão "Fechar"
-        closeButton.addEventListener("click", () => {
-          taskContainer.classList.remove("popup-fullscreen");
-          closeButton.remove()
-        });
-      }
-
-      // Remove a classe "task-title" do título atual, se existir
-      const activeTitle = document.querySelector(".task-item h3.task-title");
-      if (activeTitle) {
-        activeTitle.classList.remove("task-title");
-        taskTitle.classList.add("task-title-2")
-      }
-
-      // Adiciona a classe ao título clicado
-      taskTitle.classList.add("task-title");
-
-      // Debug: mostra informações no console
-      console.log("Elemento clicado:", event.target);
-      console.log("Nó pai:", event.target.parentNode);
-      console.log("Nó avô:", taskContainer);
-    });
-  });
-});
+document.addEventListener("DOMContentLoaded", initializeApp);

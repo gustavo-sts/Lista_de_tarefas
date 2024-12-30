@@ -434,12 +434,7 @@ main {
 
   .navigation-elements-box {
   display: flex;
-  justify-content: left;
 }
-
-  .navigation-elements-box li{
-    margin-left: 16px;
-  }
 
   .navigation-elements-box ul{
     display: flex;
